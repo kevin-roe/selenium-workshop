@@ -1,13 +1,11 @@
-require "selenium-webdriver"
+require_relative "../driver"
 require_relative "../pages/text_box"
 
 RSpec.configure do |config|
   config.before(:each) do
-    options = Selenium::WebDriver::Options.chrome
-    @driver = Selenium::WebDriver.for(:chrome, options:)
-    @driver.manage.timeouts.implicit_wait = 10
+    @driver = Driver.new(:chrome)
 
-    @text_box = TextBox.new(@driver)
+    @text_box = TextBoxPage.new(@driver)
   end
 
   config.after(:each) do

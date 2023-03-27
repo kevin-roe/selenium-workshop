@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TextBox
+class TextBoxPage
   include RSpec::Matchers
 
   USER_NAME = { id: "userName" }.freeze
@@ -10,11 +10,11 @@ class TextBox
   end
 
   def set_user_name(value)
-    @driver.find_element(USER_NAME).send_keys(value)
+    @driver.set_text(USER_NAME, value)
   end
 
-  def validate_user_name_value(expected)
-    actual = @driver.find_element(USER_NAME).attribute("value")
+  def validate_user_name(expected)
+    actual = @driver.attribute(USER_NAME, "value")
     expect(expected).to eql actual
   end
 end
