@@ -1,14 +1,18 @@
 require "selenium-webdriver"
 
 class Driver
+  attr_reader :webdriver
+
   def initialize(browser)
-    if browser == :chrome
-      options = Selenium::WebDriver::Options.chrome
-      @webdriver = Selenium::WebDriver.for(:chrome, options:)
-    elsif browser == :firefox
-      options = Selenium::WebDriver::Options.firefox
-      @webdriver = Selenium::WebDriver.for(:firefox, options:)
-    end
+    options = if browser == :chrome
+                Selenium::WebDriver::Options.chrome
+              elsif browser == :firefox
+                Selenium::WebDriver::Options.firefox
+              else
+                raise StandardError, "Browser #{browser} is not supported."
+              end
+
+    @webdriver = Selenium::WebDriver.for(browser, options: options)
     @webdriver.manage.timeouts.implicit_wait = 10
   end
 
@@ -36,5 +40,9 @@ class Driver
 
   def attribute(locator, attribute)
     element(locator).attribute(attribute)
+  end
+
+  def click(locator)
+    element(locator).click
   end
 end
